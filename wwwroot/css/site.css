@@ -88,3 +88,21 @@ h3 {
     color: #fff; /* Text color on hover */
     border-color: #333; /* Border color on hover */
 }
+
+.container-fluid {
+    width: 100%;
+    overflow-x: hidden;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+}
+
+.intro-paragraph {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 20px;
+    padding-left: 180px;
+    padding-right: 180px;
+}
+
