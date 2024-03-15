@@ -24,16 +24,17 @@ body {
 
 h1 {
     font-family: 'Roboto', sans-serif;
-    font-size: 72px;
+    font-size: 3.5rem;
 }
 
 h2 {
     font-family: 'Roboto', sans-serif;
-    font-size: 56px;
+    font-size: 2.5rem;
 }
 
 h3 {
     font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
 }
 
 .content-block {
@@ -43,7 +44,7 @@ h3 {
 
 .sub-element {
     width: 48%; /* Adjust width as needed */
-    padding: 20px; /* Optional: Add padding for spacing */
+    padding: 2rem; /* Optional: Add padding for spacing */
 }
 
 .sub-element-photo {
@@ -98,7 +99,7 @@ h3 {
 }
 
 .intro-paragraph {
-    font-size: 20px;
+    font-size: 24px;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     padding: 20px;
@@ -106,3 +107,18 @@ h3 {
     padding-right: 180px;
 }
 
+/* Adjust z-index of the navbar */
+.navbar {
+    position: relative;
+    z-index: 1000; /* Ensure the navbar appears above other content */
+}
+
+/* Adjust z-index of the dropdown menu */
+.dropdown-menu {
+    z-index: 1001; /* Ensure the dropdown menu appears above the navbar */
+}
+
+/* Show dropdown menu on hover */
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}

@@ -4,34 +4,75 @@
 @{
 }
 @{
-    ViewBag.Title = "Contact Us";
+	ViewBag.Title = "Contact Us";
 }
+
+<head>
+	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
+	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL1UOXvtmard6H1ipAdT32flXum9E0jR4&callback=console.debug&libraries=maps,marker&v=beta">
+	</script>
+</head>
 <div class="intro-paragraph">
-<h1>@ViewBag.Title</h1>
+	<h1>@ViewBag.Title</h1>
 
-<p class="intro-paragraph">Thank you for your interest in our Jiu Jitsu academy! Whether you have questions about our classes, scheduling, pricing, or anything else, we're here to help. 
-    Please feel free to reach out to us using the contact information below, or fill out the form and we'll get back to you as soon as possible.</p>
+	<p>
+		Thank you for your interest in our Jiu Jitsu academy! Whether you have questions about our classes, scheduling, pricing, or anything else, we're here to help.
+		Please feel free to reach out to us using the contact information below, or fill out the form and we'll get back to you as soon as possible.
+	</p>
+</div>
+<div class="content-block">
+	<div class="sub-element">
+		<h2>Academy Address:</h2>
+		<p>[Your Academy Address Here]</p>
 
-<h2>Academy Address:</h2>
-<p>[Your Academy Address Here]</p>
+		<h2>Phone Number:</h2>
+		<p>[Your Phone Number Here]</p>
 
-<h2>Phone Number:</h2>
-<p>[Your Phone Number Here]</p>
+		<h2>Email Address:</h2>
+		<p>[Your Email Address Here]</p>
 
-<h2>Email Address:</h2>
-<p>[Your Email Address Here]</p>
+		<h2>Social Media:</h2>
+		<p>Follow us on social media for updates, news, and special offers!</p>
+		<p>[Social Media Links Here]</p>
 
-<h2>Social Media:</h2>
-<p>Follow us on social media for updates, news, and special offers!</p>
-<p>[Social Media Links Here]</p>
+		<h2>Business Hours:</h2>
+		<p>Monday - Friday: [Business Hours Here]</p>
+		<p>Saturday: [Business Hours Here]</p>
+		<p>Sunday: Closed</p>
+		<p>We look forward to hearing from you and welcoming you to our Jiu Jitsu community!</p>
+	</div>
+	<div class="sub-element">
+		<form action="#" method="post">
+			<label for="fname">First Name</label>
+			<input type="text" id="fname" name="firstname" required>
 
-<h2>Business Hours:</h2>
-<p>Monday - Friday: [Business Hours Here]</p>
-<p>Saturday: [Business Hours Here]</p>
-<p>Sunday: Closed</p>
+			<label for="lname">Last Name</label>
+			<input type="text" id="lname" name="lastname" required>
 
-<h2>Contact Form:</h2>
-<p>[Contact Form Here]</p>
+			<label for="email">Email Address</label>
+			<input type="email" id="email" name="email" required>
 
-<p>We look forward to hearing from you and welcoming you to our Jiu Jitsu community!</p>
+			<label for="phone">Phone Number</label>
+			<input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Format: XXXX-XXX-XXX" required>
+
+			<label for="subject">Subject</label>
+			<input type="text" id="subject" name="subject" required>
+
+			<label for="message">Message</label>
+			<textarea id="message" name="message" rows="5" required></textarea>
+
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+</div>
+<div class="content-block">
+	<div class="sub-element">
+		<h2>Academy Address:</h2>
+		<p>[Your Academy Address Here]</p>
+	</div>
+	<div class="sub-element">
+		<gmp-map center="-32.928226470947266,151.7816925048828" zoom="14" map-id="DEMO_MAP_ID">
+			<gmp-advanced-marker position="-32.928226470947266,151.7816925048828" title="My location"></gmp-advanced-marker>
+		</gmp-map>
+	</div>
 </div>
