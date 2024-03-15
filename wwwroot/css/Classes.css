@@ -1,0 +1,9 @@
+﻿.class-benefits {
+    padding: 20px;
+    background-color: #d8d8d8; /* Changed to a darker shade of gray */
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding-left: 15%;
+    padding-right: 15%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

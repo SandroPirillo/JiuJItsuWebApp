@@ -9,7 +9,19 @@ namespace JiuJitsuWebApp.Controllers
             return View();
         }
 
-        public ActionResult OurClasses()
+        public ActionResult KidsClasses()
+        {
+            return View();
+        }
+        public ActionResult BeginnerClasses()
+        {
+            return View();
+        }
+        public ActionResult IntermediateClasses()
+        {
+            return View();
+        }
+        public ActionResult AdvancedClasses()
         {
             return View();
         }
