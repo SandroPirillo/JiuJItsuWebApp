@@ -2,8 +2,8 @@
 
 namespace JiuJitsuWebApp.Controllers
 {
-    public class ScheduleController : Controller
-    {
+    public class ScheduleController : BaseController
+	{
         public ActionResult Timetable()
         {
             return View();

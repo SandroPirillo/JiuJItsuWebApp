@@ -2,8 +2,8 @@
 
 namespace JiuJitsuWebApp.Controllers
 {
-    public class MembershipController : Controller
-    {
+    public class MembershipController : BaseController
+	{
         public ActionResult MembershipOptions()
         {
             return View();

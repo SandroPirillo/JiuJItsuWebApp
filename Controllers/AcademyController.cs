@@ -2,8 +2,8 @@
 
 namespace JiuJitsuWebApp.Controllers
 {
-    public class AcademyController : Controller
-    {
+    public class AcademyController : BaseController
+	{
         public ActionResult OurTeam()
         {
             return View();
@@ -13,7 +13,7 @@ namespace JiuJitsuWebApp.Controllers
         {
             return View();
         }
-        public ActionResult BeginnerClasses()
+        public ActionResult BeginnersClasses()
         {
             return View();
         }

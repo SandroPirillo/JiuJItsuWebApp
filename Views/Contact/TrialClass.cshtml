@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewBag.Title = "Book a Trial Class now";
+}
+
+<head>
+	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
+</head>
+<div class="text-center">
+	<h1>@ViewBag.Title</h1>
+	<form action="#" method="post">
+		<label for="fname">First Name*</label>
+		<input type="text" id="fname" name="firstname" required>
+
+		<label for="lname">Last Name*</label>
+		<input type="text" id="lname" name="lastname" required>
+
+		<label for="pname">Parent Name(for Kid's class)</label>
+		<input type="text" id="pname" name="parentname" >
+
+		<label for="email">Email Address*</label>
+		<input type="email" id="email" name="email" required>
+
+		<label for="phone">Phone Number*</label>
+		<input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Format: XXXX-XXX-XXX" required>
+
+		<label for="classtype">Class Type*</label>
+		<select id="classtype" name="classtype" required>
+			<option value="" selected disabled hidden>Select class type</option>
+			<option value="kids5-8">Kids class 5-8</option>
+			<option value="kids9-12">Kids class 9-12</option>
+			<option value="kids12-15">Kids class 12-15</option>
+			<option value="kids15-18">Kids class 15-18</option>
+			<option value="beginner">Beginner</option>
+			<option value="intermediate">Intermediate or above</option>
+		</select>
+
+		<label for="source">How did you hear about us?</label>
+		<select id="source" name="source" >
+			<option value="" selected disabled hidden>Select source</option>
+			<option value="internet">Internet</option>
+			<option value="friend">Friend</option>
+			<option value="advertisement">Advertisement</option>
+			<option value="socialMedia">Social Media</option>
+			<option value="other">Other</option>
+		</select>
+
+		<label for="message">Message</label>
+		<textarea id="message" name="message" rows="5" ></textarea>
+
+		<input type="submit" value="Submit">
+	</form>
+</div>
