@@ -1,25 +1,24 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
     margin-bottom: 60px;
-
 }
 
 h1 {
@@ -42,9 +41,16 @@ h3 {
     justify-content: space-between;
 }
 
+.banner {
+    width: 100%;
+    transform: translate(0%, -20%);
+}
+
 .sub-element {
     width: 48%; /* Adjust width as needed */
     padding: 2rem; /* Optional: Add padding for spacing */
+    text-align: center;
+    align-items: center;
 }
 
 .sub-element-photo {
@@ -84,11 +90,11 @@ h3 {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
 }
 
-.trial-class-button:hover {
-    background-color: #333; /* Background color on hover */
-    color: #fff; /* Text color on hover */
-    border-color: #333; /* Border color on hover */
-}
+    .trial-class-button:hover {
+        background-color: #333; /* Background color on hover */
+        color: #fff; /* Text color on hover */
+        border-color: #333; /* Border color on hover */
+    }
 
 .container-fluid {
     width: 100%;
@@ -122,3 +128,12 @@ h3 {
 .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.gray-background {
+    padding: 20px;
+    background-color: #d8d8d8; /* Changed to a darker shade of gray */
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+

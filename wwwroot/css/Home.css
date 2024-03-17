@@ -1,3 +1,36 @@
-﻿.banner {
+﻿.photo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px; /* Adjust this value as needed to fine-tune the positioning */
+    align-items: center;
+    position: relative;
+    width: 300px; /* Adjust the width and height as needed */
+    height: 250px; /* This ensures the container size */
+}
+
+.photo-icon {
     width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    color: white; /* Adjust text color as needed */
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+.photo-container:hover .text-overlay {
+    opacity: 1;
+}
+
+.photo-container:hover .photo-icon {
+    transform: scale(1.1); /* Increase size by 10% on hover */
 }
