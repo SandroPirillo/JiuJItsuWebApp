@@ -131,9 +131,23 @@ h3 {
 
 .gray-background {
     padding: 20px;
+    padding-bottom: 7.5%;
+    padding-top: 2.5%;
     background-color: #d8d8d8; /* Changed to a darker shade of gray */
     border-radius: 5px;
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Adjust the transition speed as needed */
+}
+
+    .fade-in.visible {
+        opacity: 1;
+    }
+    .fade-in.invisible {
+        opacity: 0;
+    }
