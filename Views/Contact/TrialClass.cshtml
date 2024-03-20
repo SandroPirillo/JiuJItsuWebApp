@@ -8,6 +8,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
 	<script src="~/js/site.js"></script>
+	<script src="~/js/formValidation.js"></script>
 </head>
 <div class="text-center">
 	<h1>@ViewBag.Title</h1>
@@ -20,8 +21,8 @@
 		<input type="text" id="lname" name="lastname" required>
 		<div class="error-text" id="lname-error"></div>
 
-		<label for="pname">Parent Name (for Kid's class)</label>
-		<input type="text" id="pname" name="parentname">
+        <label for="pname">Parent Name* (for Kid's class)</label>
+        <input type="text" id="pname" name="parentname" disabled>
 		<div class="error-text" id="pname-error"></div>
 
 		<label for="email">Email Address*</label>
@@ -29,7 +30,7 @@
 		<div class="error-text" id="email-error"></div>
 
 		<label for="phone">Phone Number*</label>
-		<input type="tel" id="phone" name="phone" placeholder="Format: XXXX-XXX-XXXX" required>
+		<input type="tel" id="phone" name="phone"  required>
 		<div class="error-text" id="phone-error"></div>
 
 		<label for="classtype">Class Type*</label>

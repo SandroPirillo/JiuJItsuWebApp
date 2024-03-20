@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL1UOXvtmard6H1ipAdT32flXum9E0jR4&callback=console.debug&libraries=maps,marker&v=beta">
 	</script>
+	<script src="~/js/formValidation.js"></script>
 </head>
 <div class="intro-paragraph">
 	<h1>@ViewBag.Title</h1>
@@ -53,7 +54,7 @@
 			<input type="email" id="email" name="email" required>
 
 			<label for="phone">Phone Number</label>
-			<input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Format: XXXX-XXX-XXX" required>
+			<input type="tel" id="phone" name="phone" required>
 
 			<label for="subject">Subject</label>
 			<input type="text" id="subject" name="subject" required>
