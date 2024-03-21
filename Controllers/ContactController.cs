@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Net.Mail;
 
 namespace JiuJitsuWebApp.Controllers
@@ -7,7 +8,8 @@ namespace JiuJitsuWebApp.Controllers
 	{
         public ActionResult ContactUs()
         {
-            return View();
+			ViewBag.ThankYouMessage = TempData["ThankYouMessage"] as string;
+			return View();
         }
 
 		public ActionResult TrialClass()
@@ -18,35 +20,27 @@ namespace JiuJitsuWebApp.Controllers
 		[HttpPost]
 		public ActionResult ContactUs(string firstname, string lastname, string email, string phone, string subject, string message)
 		{
-			System.Diagnostics.Debug.WriteLine("First Name: " + firstname);
-
-			// Here you can handle the form submission
-			// For example, you can save the data to a database or send an email
-			try
+			var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
 			{
-				MailMessage mail = new MailMessage();
-				SmtpClient SmtpServer = new SmtpClient("your_smtp_server");
-
-				mail.From = new MailAddress("your_email@your_domain.com");
-				mail.To.Add(email);
-				mail.Subject = subject;
-				mail.Body = message;
-
-				SmtpServer.Port = 587; // or your port
-				SmtpServer.Credentials = new System.Net.NetworkCredential("username", "password");
-				SmtpServer.EnableSsl = true;
-
-				SmtpServer.Send(mail);
-			}
-			catch (Exception ex)
+				Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
+				EnableSsl = true
+			};
+			//validation of the form
+			if (string.IsNullOrEmpty(firstname) || string.IsNullOrEmpty(lastname) || string.IsNullOrEmpty(email) 
+				|| string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(message))
 			{
-				System.Diagnostics.Debug.WriteLine(ex.ToString());
+				RedirectToAction("ContactUs");
 			}
 
-			// After handling the form submission, you can redirect the user to a 'Thank You' page or back to the form page
-			// return RedirectToAction("ThankYou");
-			// or
-			return View();
+			string Inquiry = "First Name: " + firstname + "\n" +
+								 "Last Name: " + lastname + "\n" +
+								 "Email: " + email + "\n" +
+								 "Phone: " + phone + "\n" +
+								 "Message: " + message;
+
+			client.Send(email, "sandropirillo@hotmail.com", subject, Inquiry);
+			TempData["ThankYouMessage"] = "Thank you for your inquiry. We will get back to you soon.";
+			return RedirectToAction("ContactUs");
 		}
 
 	}

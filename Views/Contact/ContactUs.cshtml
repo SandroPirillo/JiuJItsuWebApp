@@ -20,11 +20,14 @@
 		Thank you for your interest in our Jiu Jitsu academy! Whether you have questions about our classes, scheduling, pricing, or anything else, we're here to help.
 		Please feel free to reach out to us using the contact information below, or fill out the form and we'll get back to you as soon as possible.
 	</p>
+	@if (!string.IsNullOrEmpty(ViewBag.ThankYouMessage))
+	{
+		<div class="alert alert-success">@ViewBag.ThankYouMessage</div>
+	}
 </div>
+
 <div class="content-block">
 	<div class="sub-element">
-		<h2>Academy Address:</h2>
-		<p>[Your Academy Address Here]</p>
 
 		<h2>Phone Number:</h2>
 		<p>[Your Phone Number Here]</p>
