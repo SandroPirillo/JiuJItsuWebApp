@@ -2,24 +2,41 @@ $(document).ready(function () {
     $("#fname").on("blur", function () {
         var firstName = $('#fname').val().trim();
         if (firstName.length < 2 || !/^[a-zA-Z]+$/.test(firstName)) {
-            $("#fname-error").text("Error: First name must be at least 2 characters and contain only letters.");
+            if ($("#fname-error").length === 0) {
+                $('<div id="fname-error" class="error-text">Error: First name must be at least 2 characters and contain only letters.</div>').insertAfter('#fname');
+            }
         }
         else {
-            $("#fname-error").text("");
+            $("#fname-error").remove();
         }
-    }
-    );
+    });
 
     $("#lname").on("blur", function () {
         var lastName = $('#lname').val().trim();
         if (lastName.length < 2 || !/^[a-zA-Z]+$/.test(lastName)) {
-            $("#lname-error").text("Error: Last name must be at least 2 characters and contain only letters.");
+            if ($("#lname-error").length === 0) {
+                $('<div id="lname-error" class="error-text">Error: Last name must be at least 2 characters and contain only letters.</div>').insertAfter('#lname');
+            }
         }
         else {
-            $("#lname-error").text("");
+            $("#lname-error").remove();
         }
-    }
-    );
+    });
+
+
+    $("#pname").on("blur", function () {
+        var parentName = $('#pname').val().trim();
+        var nameParts = parentName.split(' ');
+
+        if (nameParts.length != 2 || !/^[a-zA-Z]{2,}$/.test(nameParts[0]) || !/^[a-zA-Z]{2,}$/.test(nameParts[1])) {
+            if ($("#pname-error").length === 0) {
+                $('<div id="pname-error" class="error-text">Error: Parent name must be two words of at least 2 characters each and contain only letters.</div>').insertAfter('#pname');
+            }
+        }
+        else {
+            $("#pname-error").remove();
+        }
+    });
 
     $("#classtype").on("blur", function () {
         var classtype = $('#classtype').val().trim();
@@ -39,30 +56,30 @@ $(document).ready(function () {
             $("#pname").prop('required', false);
         }
 
-    }
-    );
+    });
 
     $("#email").on("blur", function () {
         var email = $('#email').val().trim();
         if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
-            $("#email-error").text("Error: Email is Invalid");
+            if ($("#email-error").length === 0) {
+                $('<div id="email-error" class="error-text">Error: Email is Invalid</div>').insertAfter('#email');
+            }
         }
         else {
-            $("#email-error").text("");
+            $("#email-error").remove();
         }
-    }
-    );
+    });
 
     $("#phone").on("blur", function () {
         var phone = $('#phone').val().trim();
         if (!/^\d{3}\d{3}\d{4}$/.test(phone)) {
-            $("#phone-error").text("Error: Phone is Invalid");
+            if ($("#phone-error").length === 0) {
+                $('<div id="phone-error" class="error-text">Error: Phone is Invalid</div>').insertAfter('#phone');
+            }
         }
         else {
-            $("#phone-error").text("");
+            $("#phone-error").remove();
         }
-    }
-    );
+    });
 
-}
-);
+});
