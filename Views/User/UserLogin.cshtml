@@ -11,6 +11,11 @@
     <link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
     <script src="~/js/formValidation.js"></script>
 </head>
+
+@if (!string.IsNullOrEmpty(ViewBag.LoginError))
+{
+    <div class="alert alert-danger text-center">@ViewBag.LoginError</div>
+}
 <div class="container">
     <h2 class="text-center">@ViewData["Title"]</h2>
 
