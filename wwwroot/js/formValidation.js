@@ -82,4 +82,29 @@ $(document).ready(function () {
         }
     });
 
+
+    $("#password").on("blur", function () {
+        var password = $('#password').val().trim();
+        if (password.length < 6) {
+            if ($("#password-error").length === 0) {
+                $('<div id="password-error" class="error-text">Error: Password must be 6 or more characters.</div>').insertAfter('#password');
+            }
+        }
+        else {
+            $("#password-error").remove();
+        }
+    });
+
+    $("#confirmPassword").on("blur", function () {
+        var password = $('#password').val().trim();
+        var confirmPassword = $('#confirmPassword').val().trim();
+        if (password != confirmPassword) {
+            if ($("#confirmPassword-error").length === 0) {
+                $('<div id="confirmPassword-error" class="error-text">Error: Passwords do not match.</div>').insertAfter('#confirmPassword');
+            }
+        }
+        else {
+            $("#confirmPassword-error").remove();
+        }
+    });
 });

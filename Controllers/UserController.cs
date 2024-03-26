@@ -16,6 +16,7 @@ namespace JiuJitsuWebApp.Controllers
 
         public IActionResult UserRegistration()
         {
+            ViewBag.SuccessfulRegistrationMessage = TempData["SuccessfulRegistrationMessage"] as string;
             return View();
         }
 
@@ -24,56 +25,60 @@ namespace JiuJitsuWebApp.Controllers
             return View();
         }
 
-        [HttpPost ("UserRegistration")]
+        [HttpPost("UserRegistration")]
         public IActionResult Register(UserRegisterRequests request)
         {
             if (_context.Users.Any(user => user.Email == request.Email))
             {
                 return BadRequest("User already exists");
             }
-            if (!ModelState.IsValid){ 
+            if (!ModelState.IsValid)
+            {
                 return BadRequest("Invalid input");
             }
-            else {
-
-            CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
-            var user = new User
+            else
             {
-                Email = request.Email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                VerificationToken = CreateRandomToken()
-            };
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+                CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
+                var user = new User
+                {
+                    Email = request.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    VerificationToken = CreateRandomToken()
+                };
 
-            return RedirectToAction("UserRegistration");
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                TempData["SuccessfulRegistrationMessage"] = "Thank you for creating an account, please verify your account";
+                return RedirectToAction("UserRegistration");
             }
         }
 
 
-		[HttpPost ("UserLogin")]
-		public IActionResult Login(UserLoginRequests request)
-		{
+        [HttpPost("UserLogin")]
+        public IActionResult Login(UserLoginRequests request)
+        {
             var user = _context.Users.FirstOrDefault(user => user.Email == request.Email);
-			if(user == null)
+            if (user == null)
             {
-				return BadRequest("User does not exist");
-			}
-            if (user.Verified == null) {
-				return BadRequest("User not verified");
-			}
+                return BadRequest("User does not exist");
+            }
+            if (user.Verified == null)
+            {
+                return BadRequest("User not verified");
+            }
             if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Invalid password");
             }
-            else {
-                    return RedirectToAction("UserLogin");
+            else
+            {
+                return RedirectToAction("UserLogin");
             }
-		}
+        }
 
-		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
@@ -82,17 +87,17 @@ namespace JiuJitsuWebApp.Controllers
             }
         }
 
-		private Boolean VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-		{
-			using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-			{
-				var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        private Boolean VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
 
-			}
-		}
+            }
+        }
 
-		private string CreateRandomToken()
+        private string CreateRandomToken()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         }
