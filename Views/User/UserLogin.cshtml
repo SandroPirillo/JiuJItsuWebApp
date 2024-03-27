@@ -3,6 +3,10 @@
 *@
 @{
 }
+
+@model UserLoginRequests
+
+
 @{
     ViewData["Title"] = "Login";
 }
@@ -25,8 +29,8 @@
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="form-group">
-            <label for="password1">Password</label>
-            <input type="password" class="form-control" id="password1" name="password1" required>
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Login</button>
     </form>

@@ -29,6 +29,12 @@ namespace JiuJitsuWebApp.Controllers
             return View();
         }
 
+        public IActionResult UserLogout()
+        {
+			HttpContext.Session.Clear();
+			return RedirectToAction("Index", "Home");
+		}
+
         [HttpPost("UserRegistration")]
         public IActionResult Register(UserRegisterRequests request)
         {
@@ -89,8 +95,8 @@ namespace JiuJitsuWebApp.Controllers
             }
             else
             {
-                TempData["LoggedInEmail"] = user.Email;
-                return RedirectToAction("Index", "Home");
+				HttpContext.Session.SetString("UserEmail", user.Email);
+				return RedirectToAction("Index", "Home");
             }
         }
 
