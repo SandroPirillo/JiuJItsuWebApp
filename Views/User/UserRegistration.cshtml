@@ -14,13 +14,20 @@
 	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
 	<script src="~/js/formValidation.js"></script>
 </head>
-@if (!string.IsNullOrEmpty(ViewBag.RegistrationError))
+@if (!string.IsNullOrEmpty(ViewBag.RegistrationErrorMessage))
 {
-	<div class="alert alert-danger text-center">@ViewBag.RegistrationError</div>
+	<div class="alert alert-danger text-center">@ViewBag.RegistrationErrorMessage</div>
 }
-@if (!string.IsNullOrEmpty(ViewBag.SuccessfulRegistrationMessage))
+@if (!string.IsNullOrEmpty(ViewBag.SuccessfulRegistrationMessage) || !string.IsNullOrEmpty(ViewBag.IncorrectVerificationMessage))
 {
-	<div class="alert alert-success text-center">@ViewBag.SuccessfulRegistrationMessage</div>
+	if (!string.IsNullOrEmpty(ViewBag.IncorrectVerificationMessage))
+	{
+		<div class="alert alert-danger text-center">@ViewBag.IncorrectVerificationMessage</div>
+	}
+	else
+	{
+		<div class="alert alert-success text-center">@ViewBag.SuccessfulRegistrationMessage</div>
+	}
 	<form asp-action="verify" method="post">
 		<div class="form-group">
 			<label for="token">Verification Token</label>
@@ -47,6 +54,7 @@ else
 				<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
 			</div>
 			<button type="submit" class="btn btn-primary" style="margin-top: 10px;">Register</button>
+			<a class="nav-link text-decoration-underline" asp-area="" asp-controller="User" asp-action="UserLogin">Already have an Account?</a>
 		</form>
 	</div>
 }

@@ -8,30 +8,47 @@
 
 
 @{
-    ViewData["Title"] = "Login";
+	ViewData["Title"] = "Login";
 }
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
-    <script src="~/js/formValidation.js"></script>
+	<link rel="stylesheet" type="text/css" href="~/css/ContactUs.css">
+	<script src="~/js/formValidation.js"></script>
 </head>
 
 @if (!string.IsNullOrEmpty(ViewBag.LoginError))
 {
-    <div class="alert alert-danger text-center">@ViewBag.LoginError</div>
+	<div class="alert alert-danger text-center">@ViewBag.LoginError</div>
 }
-<div class="container">
-    <h2 class="text-center">@ViewData["Title"]</h2>
+@if (!string.IsNullOrEmpty(ViewBag.PasswordResetMessage))
+{
+	<div class="alert alert-info text-center">@ViewBag.PasswordResetMessage</div>
+	<form asp-action="verify" method="post">
+		<div class="form-group">
+			<label for="token">Password reset Token</label>
+			<input type="text" class="form-control" id="token" name="token" required>
+			<button type="submit" class="btn btn-primary" style="margin-top: 10px;">Reset Password</button>
+		</div>
+	</form>
+}
 
-    <form asp-action="Login" method="post">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Login</button>
-    </form>
-</div>
+else
+{
+	<div class="container">
+		<h2 class="text-center">@ViewData["Title"]</h2>
+
+		<form asp-action="Login" method="post">
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" class="form-control" id="email" name="email" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" class="form-control" id="password" name="password" required>
+			</div>
+			<button type="submit" class="btn btn-primary" style="margin-top: 10px;">Login</button>
+			<a class="nav-link text-decoration-underline" asp-area="" asp-controller="User" asp-action="ForgotPassword">Forgot password?</a>
+			<a class="nav-link text-decoration-underline" asp-area="" asp-controller="User" asp-action="UserRegistration">Don't have an Account?</a>
+		</form>
+	</div>
+}
