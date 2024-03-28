@@ -12,13 +12,40 @@
 
 <head>
 	<link rel="stylesheet" type="text/css" href="~/css/Forms.css" />
+	<link rel="stylesheet" type="text/css" href="~/css/UserAccountManagement.css" />
 	<script src="~/js/formValidation.js"></script>
 </head>
 
-<div class="container text-center">
-		<h2 >@ViewData["Title"]</h2>
+<div class="container">
+	<h2 class="text-center">@ViewData["Title"]</h2>
+	<div class="info-card">
 		<h3>Basic info</h3>
-		<h3>Contact info</h3>
-		<h3>Membership and Payment</h3>
+		<div class="info-card-content">
+			<p>profile picture</p>
+			<p>Name</p>
+			<p>Age</p>
+			<p>Change Password</p>
+		</div>
 	</div>
+
+	<div class="info-card">
+		<h3>Contact info</h3>
+		<div class="info-card-content">
+			<p>Email</p>
+			<p>Phone number</p>
+		</div>
+	</div>
+
+	<div class="info-card">
+		<h3>Membership and Payment</h3>
+		<div class="info-card-content">
+			<p>Membership type</p>
+			<p>Payment method</p>
+		</div>
+
+	</div>
+	<div>
+		<button type="submit" class="btn btn-danger" style="margin-top: 10px;">Delete Account</button>
+	</div>
+</div>
 
