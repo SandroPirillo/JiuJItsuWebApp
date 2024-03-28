@@ -51,7 +51,7 @@
 				</ul>
 				@if (!string.IsNullOrEmpty(Context.Items["UserEmail"] as string))
 				{
-					<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserAccount">@Context.Items["UserEmail"]</a>
+					<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserAccountManagement">@Context.Items["UserEmail"]</a>
 					<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserLogout">Logout</a>
 				}
 				else

@@ -42,10 +42,23 @@ namespace JiuJitsuWebApp.Controllers
 		public IActionResult ForgotPassword()
 		{
 			ViewBag.PasswordResetMessage = TempData["PasswordResetMessage"] as string;
+			ViewBag.PasswordResetErrorMessage = TempData["PasswordResetErrorMessage"] as string;
 			return View();
 		}
 
-		
+		public IActionResult UserAccountManagement()
+		{
+			if (HttpContext.Session.GetString("UserEmail") == null)
+			{
+				return RedirectToAction("UserLogin");
+			}
+			else
+			{
+				return View();
+			}
+		}
+
+
 		public IActionResult Register(UserRegisterRequests request)
 		{
 			if (_context.Users.Any(user => user.Email == request.Email))
@@ -102,7 +115,7 @@ namespace JiuJitsuWebApp.Controllers
 		}
 
 
-		
+
 		public IActionResult Login(UserLoginRequests request)
 		{
 			var user = _context.Users.FirstOrDefault(user => user.Email == request.Email);
@@ -128,7 +141,7 @@ namespace JiuJitsuWebApp.Controllers
 			}
 		}
 
-		[HttpPost("verify")]
+
 		public IActionResult Verify(string token)
 		{
 			var user = _context.Users.FirstOrDefault(user => user.VerificationToken == token);
@@ -143,13 +156,14 @@ namespace JiuJitsuWebApp.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		
+
 		public IActionResult PasswordResetRequest(string email)
 		{
 			var user = _context.Users.FirstOrDefault(user => user.Email == email);
 			if (user == null)
 			{
-				return BadRequest("User does not exist");
+				TempData["PasswordResetErrorMessage"] = "User does not exist";
+				return RedirectToAction("ForgotPassword");
 			}
 			user.PasswordResetToken = CreateRandomToken();
 			user.PasswordResetExpires = DateTime.Now.AddHours(1);
@@ -189,7 +203,7 @@ namespace JiuJitsuWebApp.Controllers
 			_context.SaveChanges();
 			TempData["PasswordResetMessage"] = "Password reset successful";
 			return RedirectToAction("UserLogin");
-		}	
+		}
 
 		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
 		{
