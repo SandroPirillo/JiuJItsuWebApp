@@ -39,7 +39,13 @@ namespace JiuJitsuWebApp.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		[HttpPost("UserRegistration")]
+		public IActionResult ForgotPassword()
+		{
+			ViewBag.PasswordResetMessage = TempData["PasswordResetMessage"] as string;
+			return View();
+		}
+
+		
 		public IActionResult Register(UserRegisterRequests request)
 		{
 			if (_context.Users.Any(user => user.Email == request.Email))
@@ -96,7 +102,7 @@ namespace JiuJitsuWebApp.Controllers
 		}
 
 
-		[HttpPost("UserLogin")]
+		
 		public IActionResult Login(UserLoginRequests request)
 		{
 			var user = _context.Users.FirstOrDefault(user => user.Email == request.Email);
@@ -137,8 +143,8 @@ namespace JiuJitsuWebApp.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-
-		public IActionResult ForgotPassword(string email)
+		
+		public IActionResult PasswordResetRequest(string email)
 		{
 			var user = _context.Users.FirstOrDefault(user => user.Email == email);
 			if (user == null)
@@ -157,10 +163,33 @@ namespace JiuJitsuWebApp.Controllers
 			string emailMessage = "Here is your reset token:" + user.PasswordResetToken;
 			client.Send("sandropirillo@hotmail.com", email, "Password reset Lakeside Jiu Jitsu Academy", emailMessage);
 			TempData["PasswordResetMessage"] = "Please check your email for a password reset code";
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("ForgotPassword");
 
 
 		}
+
+		public IActionResult ResetPassword(ResetPasswordRequest request)
+		{
+			var user = _context.Users.FirstOrDefault(user => user.PasswordResetToken == request.PasswordResetToken);
+			if (user == null)
+			{
+				TempData["PasswordResetMessage"] = "Invalid reset token";
+				return RedirectToAction("ForgotPassword");
+			}
+			if (user.PasswordResetExpires < DateTime.Now)
+			{
+				TempData["PasswordResetMessage"] = "Reset token has expired";
+				return RedirectToAction("ForgotPassword");
+			}
+			user.PasswordResetToken = null;
+			user.PasswordResetExpires = null;
+			CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
+			user.PasswordHash = passwordHash;
+			user.PasswordSalt = passwordSalt;
+			_context.SaveChanges();
+			TempData["PasswordResetMessage"] = "Password reset successful";
+			return RedirectToAction("UserLogin");
+		}	
 
 		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
 		{

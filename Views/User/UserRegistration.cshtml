@@ -28,7 +28,7 @@
 	{
 		<div class="alert alert-success text-center">@ViewBag.SuccessfulRegistrationMessage</div>
 	}
-	<form asp-action="verify" method="post">
+	<form asp-action="Verify" method="post">
 		<div class="form-group">
 			<label for="token">Verification Token</label>
 			<input type="text" class="form-control" id="token" name="token" required>
@@ -40,7 +40,7 @@ else
 {
 	<div class="container">
 		<h2 class="text-center">@ViewData["Title"]</h2>
-		<form asp-action="register" method="post">
+		<form asp-action="Register" method="post">
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input type="email" class="form-control" id="email" name="email" required>
