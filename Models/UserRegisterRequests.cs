@@ -13,13 +13,13 @@ namespace JiuJitsuWebApp.Models
         [Required, Compare(nameof(Password))]
         public string? ConfirmPassword { get; set; } = string.Empty;
 
-        [Required]
+        [Required, MinLength(2, ErrorMessage = "Please provide a password with at least 2 characters")]
         public string FirstName { get; set; } = string.Empty;
 
-        [Required]
+        [Required, MinLength(2, ErrorMessage = "Please provide a password with at least 2 characters")]
         public string LastName { get; set; } = string.Empty;
 
-        [Phone]
+        [Required, Phone]
         public string? PhoneNumber { get; set; }
 
         [Required]

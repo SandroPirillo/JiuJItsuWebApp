@@ -43,15 +43,15 @@ else
         <form asp-action="Register" method="post">
             <div class="form-group">
                 <label for="fname">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname" required>
+                <input type="text" class="form-control" id="fname" name="FirstName" required>
             </div>
             <div class="form-group">
                 <label for="lname">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname" required>
+                <input type="text" class="form-control" id="lname" name="LastName" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="Email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -63,13 +63,13 @@ else
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone">
+                <input type="text" class="form-control" id="phone" name="PhoneNumber" required>
             </div>
             <div class="form-group">
                 <label for="dob">Date of Birth</label>
-                <input type="date" class="form-control" id="dob" name="dob" required>
+                <input type="date" class="form-control" id="dob" name="DateOfBirth" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Register</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;" id="submit">Register</button>
             <a class="nav-link text-decoration-underline" asp-area="" asp-controller="User" asp-action="UserLogin">Already have an Account?</a>
         </form>
 	</div>

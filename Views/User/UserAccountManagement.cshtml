@@ -4,8 +4,6 @@
 @{
 }
 @model User
-
-
 @{
 	ViewData["Title"] = "Account";
 }
@@ -22,8 +20,8 @@
 		<h3>Basic info</h3>
 		<div class="info-card-content">
 			<p>profile picture</p>
-			<p>Name:</p>
-			<p>Age:</p>
+			<p>Name: @Model.FirstName @Model.LastName</p>
+            <p>Age: @(DateTime.Now.Year - Model.DateOfBirth.Year)</p>
 			<p>Change Password</p>
 		</div>
 	</div>
@@ -31,15 +29,15 @@
 	<div class="info-card">
 		<h3>Contact info</h3>
 		<div class="info-card-content">
-			<p>Email:</p>
-			<p>Phone number:</p>
+			<p>Email: @Model.Email</p>
+			<p>Phone number: @Model.PhoneNumber</p>
 		</div>
 	</div>
 
 	<div class="info-card">
 		<h3>Membership and Payment</h3>
 		<div class="info-card-content">
-			<p>Membership type:</p>
+			<p>Membership type: @Model.MembershipType</p>
 			<p>Payment method:</p>
 		</div>
 
@@ -48,4 +46,3 @@
 		<button type="submit" class="btn btn-danger" style="margin-top: 10px;">Delete Account</button>
 	</div>
 </div>
-
