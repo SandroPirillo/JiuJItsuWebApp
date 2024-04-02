@@ -69,7 +69,91 @@ namespace JiuJitsuWebApp.Controllers
             }
         }
 
+		public IActionResult EditUserBasicInfo() {
 
+			var userEmail = HttpContext.Session.GetString("UserEmail");
+			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			if (user != null)
+			{
+				return View(user);
+			}
+			else
+			{
+				// Handle the case when the user is not found in the database
+				// You can redirect to an error page or display an appropriate message
+				return RedirectToAction("UserLogin");
+			}
+		}
+
+		public IActionResult UpdateBasicInfo(UpdateBasicInfoRequest request)
+		{
+			var userEmail = HttpContext.Session.GetString("UserEmail");
+			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			if (user != null)
+			{
+				user.FirstName = request.FirstName;
+				user.LastName = request.LastName;
+				user.DateOfBirth = request.DateOfBirth;
+				_context.SaveChanges();
+				return RedirectToAction("UserAccountManagement");
+			}
+			else
+			{
+				// Handle the case when the user is not found in the database
+				// You can redirect to an error page or display an appropriate message
+				return RedirectToAction("UserLogin");
+			}
+		}
+
+		public IActionResult EditContactInfo() {
+			var userEmail = HttpContext.Session.GetString("UserEmail");
+			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			if (user != null)
+			{
+				return View(user);
+			}
+			else
+			{
+				// Handle the case when the user is not found in the database
+				// You can redirect to an error page or display an appropriate message
+				return RedirectToAction("UserLogin");
+			}
+		}
+
+		public IActionResult UpdateContactInfo(UpdateContactInfoRequest request) {
+			var userEmail = HttpContext.Session.GetString("UserEmail");
+			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			if (user != null)
+			{
+				user.PhoneNumber = request.PhoneNumber;
+				user.Email = request.Email;
+				_context.SaveChanges();
+				return RedirectToAction("UserAccountManagement");
+			}
+			else
+			{
+				// Handle the case when the user is not found in the database
+				// You can redirect to an error page or display an appropriate message
+				return RedirectToAction("UserLogin");
+			}
+		}
+		public IActionResult DeleteAccount() {
+			var userEmail = HttpContext.Session.GetString("UserEmail");
+			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			if (user != null)
+			{
+				_context.Users.Remove(user);
+				_context.SaveChanges();
+				HttpContext.Session.Clear();
+				return RedirectToAction("Index", "Home");
+			}
+			else
+			{
+				// Handle the case when the user is not found in the database
+				// You can redirect to an error page or display an appropriate message
+				return RedirectToAction("UserLogin");
+			}
+		}
 
         public IActionResult Register(UserRegisterRequests request)
         {
