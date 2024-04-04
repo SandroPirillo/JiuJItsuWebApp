@@ -19,5 +19,9 @@ namespace JiuJitsuWebApp.Data
 		}
 
 		public DbSet<User> Users => Set<User>();
+        public DbSet<TimeTableModel> TimeTables => Set<TimeTableModel>();
+
+        public DbSet<BookingModel> Bookings => Set<BookingModel>();
+
     }
 }
