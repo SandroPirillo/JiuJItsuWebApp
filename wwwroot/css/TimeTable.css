@@ -19,3 +19,15 @@ th {
 tr:nth-child(even) {
     background-color: #e6e6e6; /* Set background color for even rows */
 }
+
+.timetable-cell {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+}
+
+.timetable-cell:hover {
+    background-color: #0094ff;
+    cursor: pointer;
+}

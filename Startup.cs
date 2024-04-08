@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JiuJitsuWebApp.Data;
+using JiuJitsuWebApp.Services;
+using Microsoft.AspNetCore.Builder;
 
 namespace JiuJitsuWebApp
 {
@@ -7,6 +9,7 @@ namespace JiuJitsuWebApp
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+
 			services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
 			services.AddSession(options =>
 			{

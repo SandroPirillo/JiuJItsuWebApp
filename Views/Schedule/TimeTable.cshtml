@@ -1,19 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@{
-	ViewBag.Title = "Timetable";
-}
+﻿@model IEnumerable<TimeTableModel>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/TimeTable.css">
+	<link rel="stylesheet" type="text/css" href="~/css/TimeTable.css">
 </head>
-
-
-
+@{
+	ViewData["Title"] = "Timetable";
+}
 <div class="text-center">
 	<h1>@ViewBag.Title</h1>
 
@@ -22,63 +14,33 @@
 		Whether you're a beginner looking to learn the fundamentals or an experienced practitioner seeking advanced training, we have classes for you.
 		Check out our timetable below and start planning your training sessions today!
 	</p>
+	<table>
+		<tr>
+			<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+			<th>Thursday</th>
+			<th>Friday</th>
+			<th>Saturday</th>
+			<th>Sunday</th>
+		</tr>
+		<tr>
+			@foreach (Day day in Enum.GetValues(typeof(Day)))
+			{
+				<td>
+					@foreach (var item in Model.Where(x => x.Day == day))
+					{
+						<div class="timetable-cell">
+							@item.ClassType.ToString()
+							@item.StartTime.ToString("hh:mm tt")<br />
+						</div>
+					}
+				</td>
+			}
+		</tr>
 
-    <table>
-        <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th>Sunday</th>
-        </tr>
-        <tr>
-            <td>Class 1<br>8 AM - 9 AM</td>
-            <td>Class 2<br>8 AM - 9 AM</td>
-            <td>Class 3<br>8 AM - 9 AM</td>
-            <td>Class 4<br>8 AM - 9 AM</td>
-            <td>Class 5<br>8 AM - 9 AM</td>
-            <td>Class 6<br>8 AM - 9 AM</td>
-            <td>Class 7<br>8 AM - 9 AM</td>
-        </tr>
-        <tr>
-            <td>Class 1<br>8 AM - 9 AM</td>
-            <td>Class 2<br>8 AM - 9 AM</td>
-            <td>Class 3<br>8 AM - 9 AM</td>
-            <td>Class 4<br>8 AM - 9 AM</td>
-            <td>Class 5<br>8 AM - 9 AM</td>
-            <td>Class 6<br>8 AM - 9 AM</td>
-            <td>Class 7<br>8 AM - 9 AM</td>
-        </tr>
-        <tr>
-            <td>Class 1<br>8 AM - 9 AM</td>
-            <td>Class 2<br>8 AM - 9 AM</td>
-            <td>Class 3<br>8 AM - 9 AM</td>
-            <td>Class 4<br>8 AM - 9 AM</td>
-            <td>Class 5<br>8 AM - 9 AM</td>
-            <td>Class 6<br>8 AM - 9 AM</td>
-            <td>Class 7<br>8 AM - 9 AM</td>
-        </tr>
-        <tr>
-            <td>Class 1<br>8 AM - 9 AM</td>
-            <td>Class 2<br>8 AM - 9 AM</td>
-            <td>Class 3<br>8 AM - 9 AM</td>
-            <td>Class 4<br>8 AM - 9 AM</td>
-            <td>Class 5<br>8 AM - 9 AM</td>
-            <td>Class 6<br>8 AM - 9 AM</td>
-            <td>Class 7<br>8 AM - 9 AM</td>
-        </tr>
-        <tr>
-            <td>Class 1<br>8 AM - 9 AM</td>
-            <td>Class 2<br>8 AM - 9 AM</td>
-            <td>Class 3<br>8 AM - 9 AM</td>
-            <td>Class 4<br>8 AM - 9 AM</td>
-            <td>Class 5<br>8 AM - 9 AM</td>
-            <td>Class 6<br>8 AM - 9 AM</td>
-            <td>Class 7<br>8 AM - 9 AM</td>
-        </tr>
-        <!-- Add more rows as needed -->
-    </table>
+
+	</table>
+
+	<a class="btn btn-primary" asp-area="" asp-controller="Schedule" asp-action="GenerateTimetable">Testing</a>
 </div>
-
