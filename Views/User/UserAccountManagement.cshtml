@@ -53,20 +53,22 @@
 	<div class="info-card">
 		<div class="content-block">
 			<h3>Current Bookings </h3>
-			<button type="button" class="btn btn-primary edit-button">Edit</button>
+
 		</div>
 		@foreach (var booking in Model.Bookings)
 		{
 			<div class="info-card-content">
 				<h4>@booking.Class.ClassType</h4>
 				<p>@booking.Class.StartTime.ToString()</p>
-				<!-- Display other booking details here -->
+				<a type="button" class="btn btn-primary btn-danger" asp-area="" asp-controller="Schedule" asp-action="DeleteBooking" asp-route-id="@booking.Id">
+					Cancel Booking
+				</a>
 			</div>
 		}
 
 	</div>
 	<div>
-		<a class="btn btn-primary btn-danger" asp-area="" asp-controller="User" 
-		asp-action="DeleteAccount" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</a>
+		<a class="btn btn-primary btn-danger" asp-area="" asp-controller="User"
+		   asp-action="DeleteAccount" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</a>
 	</div>
 </div>

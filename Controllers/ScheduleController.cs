@@ -113,6 +113,16 @@ namespace JiuJitsuWebApp.Controllers
 			return RedirectToAction("Timetable");
 		}
 
+		public IActionResult DeleteBooking(int id) {
+			var booking = _context.Bookings.FirstOrDefault(b => b.Id == id);
+			if (booking != null)
+			{
+				_context.Bookings.Remove(booking);
+				_context.SaveChanges();
+			}
+			return RedirectToAction("UserAccountManagement", "User");
+		}
+
 
 		public IActionResult GenerateTimetable()
 		{
