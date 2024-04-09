@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model User
+@model AccountViewModel
 @{
 	ViewData["Title"] = "Account";
 }
@@ -22,8 +22,8 @@
 			<a class="btn btn-primary edit-button" asp-area="" asp-controller="User" asp-action="EditUserBasicInfo">Edit</a>
 		</div>
 		<div class="info-card-content">
-			<p>Name: @Model.FirstName @Model.LastName</p>
-			<p>Age: @(DateTime.Now.Year - Model.DateOfBirth.Year)</p>
+			<p>Name: @Model.User.FirstName @Model.User.LastName</p>
+			<p>Age: @(DateTime.Now.Year - Model.User.DateOfBirth.Year)</p>
 			<a class="btn btn-primary edit-button" asp-area="" asp-controller="User" asp-action="ForgotPassword">Change Password</a>
 		</div>
 	</div>
@@ -34,8 +34,8 @@
 			<a class="btn btn-primary edit-button" asp-area="" asp-controller="User" asp-action="EditContactInfo">Edit</a>
 		</div>
 		<div class="info-card-content">
-			<p>Email: @Model.Email</p>
-			<p>Phone number: @Model.PhoneNumber</p>
+			<p>Email: @Model.User.Email</p>
+			<p>Phone number: @Model.User.PhoneNumber</p>
 		</div>
 	</div>
 
@@ -45,7 +45,7 @@
 			<button type="button" class="btn btn-primary edit-button">Edit</button>
 		</div>
 		<div class="info-card-content">
-			<p>Membership type: @Model.MembershipType</p>
+			<p>Membership type: @Model.User.MembershipType</p>
 			<p>Payment method: (not implemented)</p>
 		</div>
 	</div>
@@ -55,10 +55,15 @@
 			<h3>Current Bookings </h3>
 			<button type="button" class="btn btn-primary edit-button">Edit</button>
 		</div>
-		<div class="info-card-content">
-			<p>Booking 1</p>
-			<p>Booking 2</p>
-		</div>
+		@foreach (var booking in Model.Bookings)
+		{
+			<div class="info-card-content">
+				<h4>@booking.Class.ClassType</h4>
+				<p>@booking.Class.StartTime.ToString()</p>
+				<!-- Display other booking details here -->
+			</div>
+		}
+
 	</div>
 	<div>
 		<a class="btn btn-primary btn-danger" asp-area="" asp-controller="User" 

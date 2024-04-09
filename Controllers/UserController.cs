@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace JiuJitsuWebApp.Controllers
 {
@@ -46,30 +47,44 @@ namespace JiuJitsuWebApp.Controllers
 			return View();
 		}
 
-        public IActionResult UserAccountManagement()
-        {
-            if (HttpContext.Session.GetString("UserEmail") == null)
-            {
-                return RedirectToAction("UserLogin");
-            }
-            else
-            {
-                var userEmail = HttpContext.Session.GetString("UserEmail");
-                var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
-                if (user != null)
-                {
-                    return View(user);
-                }
-                else
-                {
-                    // Handle the case when the user is not found in the database
-                    // You can redirect to an error page or display an appropriate message
-                    return RedirectToAction("UserLogin");
-                }
-            }
-        }
+		public IActionResult UserAccountManagement()
+		{
+			if (HttpContext.Session.GetString("UserEmail") == null)
+			{
+				return RedirectToAction("UserLogin");
+			}
+			else
+			{
+				var userEmail = HttpContext.Session.GetString("UserEmail");
+				var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 
-		public IActionResult EditUserBasicInfo() {
+				if (user != null)
+				{
+					var bookings = _context.Bookings
+	.Include(b => b.Class)
+	.Where(b => b.UserId == user.Id)
+	.ToList();
+
+
+					var viewModel = new AccountViewModel
+					{
+						User = user,
+						Bookings = bookings
+					};
+
+					return View(viewModel);
+				}
+				else
+				{
+					// Handle the case when the user is not found in the database
+					// You can redirect to an error page or display an appropriate message
+					return RedirectToAction("UserLogin");
+				}
+			}
+		}
+
+		public IActionResult EditUserBasicInfo()
+		{
 
 			var userEmail = HttpContext.Session.GetString("UserEmail");
 			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
@@ -105,7 +120,8 @@ namespace JiuJitsuWebApp.Controllers
 			}
 		}
 
-		public IActionResult EditContactInfo() {
+		public IActionResult EditContactInfo()
+		{
 			var userEmail = HttpContext.Session.GetString("UserEmail");
 			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 			if (user != null)
@@ -120,7 +136,8 @@ namespace JiuJitsuWebApp.Controllers
 			}
 		}
 
-		public IActionResult UpdateContactInfo(UpdateContactInfoRequest request) {
+		public IActionResult UpdateContactInfo(UpdateContactInfoRequest request)
+		{
 			var userEmail = HttpContext.Session.GetString("UserEmail");
 			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 			if (user != null)
@@ -137,7 +154,8 @@ namespace JiuJitsuWebApp.Controllers
 				return RedirectToAction("UserLogin");
 			}
 		}
-		public IActionResult DeleteAccount() {
+		public IActionResult DeleteAccount()
+		{
 			var userEmail = HttpContext.Session.GetString("UserEmail");
 			var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 			if (user != null)
@@ -155,75 +173,75 @@ namespace JiuJitsuWebApp.Controllers
 			}
 		}
 
-        public IActionResult Register(UserRegisterRequests request)
-        {
-            if (_context.Users.Any(user => user.Email == request.Email))
-            {
-                TempData["RegistrationErrorMessage"] = "An account with this email already exists";
-                return RedirectToAction("UserRegistration");
-            }
-            if (!ModelState.IsValid)
-            {
-                var errorMessage = "Something went wrong please try again. Invalid fields: ";
-                foreach (var key in ModelState.Keys)
-                {
-                    var state = ModelState[key];
-                    if (state.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
-                    {
-                        if (key == "Password")
-                        {
-                            errorMessage += "Your password must contain a minimum of 6 characters, ";
-                        }
-                        else if (key == "ConfirmPassword")
-                        {
-                            errorMessage += "Your password did not match, ";
-                        }
-                        else if (key == "Email")
-                        {
-                            errorMessage += "Please provide a valid email address, ";
-                        }
-                        else if (key == "FirstName")
-                        {
-                            errorMessage += "Your first name must contain a minimum of 2 characters, ";
-                        }
-                        else if (key == "LastName")
-                        {
-                            errorMessage += "Your last name must contain a minimum of 2 characters, ";
-                        }
-                    }
-                }
-                errorMessage = errorMessage.TrimEnd(',', ' ');
-                TempData["RegistrationErrorMessage"] = errorMessage;
-                return RedirectToAction("UserRegistration");
-            }
-            else
-            {
-                CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
-                var user = new User
-                {
-                    Email = request.Email,
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt,
-                    VerificationToken = CreateRandomToken(),
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    PhoneNumber = request.PhoneNumber,
-                    DateOfBirth = request.DateOfBirth
-                };
+		public IActionResult Register(UserRegisterRequests request)
+		{
+			if (_context.Users.Any(user => user.Email == request.Email))
+			{
+				TempData["RegistrationErrorMessage"] = "An account with this email already exists";
+				return RedirectToAction("UserRegistration");
+			}
+			if (!ModelState.IsValid)
+			{
+				var errorMessage = "Something went wrong please try again. Invalid fields: ";
+				foreach (var key in ModelState.Keys)
+				{
+					var state = ModelState[key];
+					if (state.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+					{
+						if (key == "Password")
+						{
+							errorMessage += "Your password must contain a minimum of 6 characters, ";
+						}
+						else if (key == "ConfirmPassword")
+						{
+							errorMessage += "Your password did not match, ";
+						}
+						else if (key == "Email")
+						{
+							errorMessage += "Please provide a valid email address, ";
+						}
+						else if (key == "FirstName")
+						{
+							errorMessage += "Your first name must contain a minimum of 2 characters, ";
+						}
+						else if (key == "LastName")
+						{
+							errorMessage += "Your last name must contain a minimum of 2 characters, ";
+						}
+					}
+				}
+				errorMessage = errorMessage.TrimEnd(',', ' ');
+				TempData["RegistrationErrorMessage"] = errorMessage;
+				return RedirectToAction("UserRegistration");
+			}
+			else
+			{
+				CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
+				var user = new User
+				{
+					Email = request.Email,
+					PasswordHash = passwordHash,
+					PasswordSalt = passwordSalt,
+					VerificationToken = CreateRandomToken(),
+					FirstName = request.FirstName,
+					LastName = request.LastName,
+					PhoneNumber = request.PhoneNumber,
+					DateOfBirth = request.DateOfBirth
+				};
 
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-                {
-                    Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
-                    EnableSsl = true
-                };
-                string emailMessage = "Here is your verification code:" + user.VerificationToken;
-                client.Send("sandropirillo@hotmail.com", request.Email, "Verification Email Lakeside Jiu Jitsu Academy", emailMessage);
-                TempData["SuccessfulRegistrationMessage"] = "Thank you for creating an account, please check your email for a verification code your account";
-                return RedirectToAction("UserRegistration");
-            }
-        }
+				_context.Users.Add(user);
+				_context.SaveChanges();
+				var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
+				{
+					Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
+					EnableSsl = true
+				};
+				string emailMessage = "Here is your verification code:" + user.VerificationToken;
+				client.Send("sandropirillo@hotmail.com", request.Email, "Verification Email Lakeside Jiu Jitsu Academy", emailMessage);
+				TempData["SuccessfulRegistrationMessage"] = "Thank you for creating an account, please check your email for a verification code your account";
+				return RedirectToAction("UserRegistration");
+			}
+		}
 
 
 

@@ -8,11 +8,19 @@
 }
 <div class="text-center">
 	<h1>@ViewBag.Title</h1>
-
+	@if (!string.IsNullOrEmpty(ViewBag.FailedBookingMessage))
+	{
+		<div class="alert alert-danger text-center">@ViewBag.FailedBookingMessage</div>
+	}
+	@if (!string.IsNullOrEmpty(ViewBag.SuccessfulBookingMessage))
+	{
+		<div class="alert alert-success text-center">@ViewBag.SuccessfulBookingMessage</div>
+	}
+	
 	<p class="intro-paragraph">
 		Our academy offers a variety of classes throughout the week to accommodate your schedule and training needs.
-		Whether you're a beginner looking to learn the fundamentals or an experienced practitioner seeking advanced training, we have classes for you.
-		Check out our timetable below and start planning your training sessions today!
+		
+		Check out our timetable below and start planning your training sessions today! Please Remember to book your classes here before arriving
 	</p>
 	<table>
 		<tr>
@@ -31,8 +39,12 @@
 					@foreach (var item in Model.Where(x => x.Day == day))
 					{
 						<div class="timetable-cell">
-							@item.ClassType.ToString()
-							@item.StartTime.ToString("hh:mm tt")<br />
+							<a asp-area="" asp-controller="Schedule" asp-action="CreateBooking" asp-route-id="@item.Id">
+								@item.ClassType.ToString()
+								@item.StartTime.ToString("hh:mm tt")
+								@item.Id.ToString()
+								</a>
+							
 						</div>
 					}
 				</td>
@@ -41,6 +53,6 @@
 
 
 	</table>
-
-	<a class="btn btn-primary" asp-area="" asp-controller="Schedule" asp-action="GenerateTimetable">Testing</a>
+	</br>
+	<a class="btn btn-danger" asp-area="" asp-controller="Schedule" asp-action="GenerateTimetable">Testing</a>
 </div>
