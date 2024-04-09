@@ -38,14 +38,15 @@
 				<td>
 					@foreach (var item in Model.Where(x => x.Day == day))
 					{
-						<div class="timetable-cell">
-							<a asp-area="" asp-controller="Schedule" asp-action="CreateBooking" asp-route-id="@item.Id">
-								@item.ClassType.ToString()
-								@item.StartTime.ToString("hh:mm tt")
-								@item.Id.ToString()
-								</a>
-							
-						</div>
+                    <div class="timetable-cell">
+                        <a asp-area="" asp-controller="Schedule" asp-action="CreateBooking" asp-route-id="@item.Id" onclick="return confirmBooking('@item.ClassType.ToString()', '@item.StartTime.ToString("hh:mm tt")')">
+                            @item.ClassType.ToString()
+                            @item.StartTime.ToString("hh:mm tt")
+                            @item.Id.ToString()
+                        </a>
+                    </div>
+
+
 					}
 				</td>
 			}
@@ -56,3 +57,9 @@
 	</br>
 	<a class="btn btn-danger" asp-area="" asp-controller="Schedule" asp-action="GenerateTimetable">Testing</a>
 </div>
+<script>
+	function confirmBooking(classType, time) {
+		var confirmationMessage = "Are you sure you want to make a booking for " + classType + " at " + time + "?";
+		return confirm(confirmationMessage);
+	}
+</script>
