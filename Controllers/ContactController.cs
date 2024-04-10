@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
+using Azure;
+using Azure.Communication.Email;
 
 namespace JiuJitsuWebApp.Controllers
 {
 	public class ContactController : BaseController
 	{
+
+
 		public ActionResult ContactUs()
 		{
 			ViewBag.ThankYouMessage = TempData["ThankYouMessage"] as string;
@@ -21,11 +25,9 @@ namespace JiuJitsuWebApp.Controllers
 		[HttpPost]
 		public ActionResult ContactUs(string firstname, string lastname, string email, string phone, string subject, string message)
 		{
-			var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-			{
-				Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
-				EnableSsl = true
-			};
+			string connectionString = "endpoint=https://lakesidejiujitsucommunicationservice.australia.communication.azure.com/;accesskey=y8h50R2R3z1L4Au9MIXadwO78yohyFR/Bq9oYtb2VqR+w+oQCgecgazTwWjmajx6ZGXTAnksS1OBrWoOB03siQ==";
+			var emailClient = new EmailClient(connectionString);
+
 			//validation of the form
 			if (string.IsNullOrEmpty(firstname) || string.IsNullOrEmpty(lastname) || string.IsNullOrEmpty(email)
 				|| string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(message))
@@ -38,8 +40,15 @@ namespace JiuJitsuWebApp.Controllers
 								 "Email: " + email + "\n" +
 								 "Phone: " + phone + "\n" +
 								 "Message: " + message;
-
-			client.Send(email, "sandropirillo@hotmail.com", subject, Inquiry);
+			var HTMLInquiry = $"<html><body><h2>Inquiry Details:</h2><p><strong>First Name:</strong> {firstname}</p><p><strong>Last Name:</strong> " +
+				$"{lastname}</p><p><strong>Email:</strong> {email}</p><p><strong>Phone:</strong> {phone}</p><p><strong>Message:</strong> {message}</p></body></html>";
+			EmailSendOperation emailSendOperation = emailClient.Send(
+			WaitUntil.Completed,
+			senderAddress: "DoNotReply@ba9ab7b6-a594-4ae9-997a-8313fc05ccc4.azurecomm.net",
+			recipientAddress: email,
+			subject: subject,
+			htmlContent: HTMLInquiry,
+			plainTextContent: Inquiry);
 			TempData["ThankYouMessage"] = "Thank you for your inquiry. We will get back to you soon.";
 			return RedirectToAction("ContactUs");
 		}
@@ -47,11 +56,8 @@ namespace JiuJitsuWebApp.Controllers
 		[HttpPost]
 		public ActionResult TrialClass(string firstname, string lastname, string parentname, string email, string phone, string classtype, string source, string message)
 		{
-			var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-			{
-				Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
-				EnableSsl = true
-			};
+			string connectionString = "endpoint=https://lakesidejiujitsucommunicationservice.australia.communication.azure.com/;accesskey=y8h50R2R3z1L4Au9MIXadwO78yohyFR/Bq9oYtb2VqR+w+oQCgecgazTwWjmajx6ZGXTAnksS1OBrWoOB03siQ==";
+			var emailClient = new EmailClient(connectionString);
 
 			//validation of the form
 			if (string.IsNullOrEmpty(firstname) || string.IsNullOrEmpty(lastname) || string.IsNullOrEmpty(email)
@@ -80,7 +86,14 @@ namespace JiuJitsuWebApp.Controllers
 				Inquiry += "\nMessage: " + message;
 			}
 
-			client.Send(email, "sandropirillo@hotmail.com", "Trial class booking", Inquiry);
+			var HTMLInquiry = $"<html><body><h2>Inquiry Details:</h2><p><strong>First Name:</strong> {firstname}</p><p><strong>Last Name:</strong> " + $"{lastname}</p><p><strong>Email:</strong> {email}</p><p><strong>Phone:</strong> {phone}</p><p><strong>Message:</strong> {message}</p></body></html>";
+			EmailSendOperation emailSendOperation = emailClient.Send(
+			WaitUntil.Completed,
+			senderAddress: "DoNotReply@ba9ab7b6-a594-4ae9-997a-8313fc05ccc4.azurecomm.net",
+			recipientAddress: email,
+			subject: "Trail Class Booking",
+			htmlContent: HTMLInquiry,
+			plainTextContent: Inquiry);
 			TempData["ThankYouMessage"] = "Thank you for choosing to start your jiu jitsu journey, we look forward to meeting you";
 			return RedirectToAction("TrialClass");
 		}

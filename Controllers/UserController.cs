@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using Azure.Communication.Email;
+using Azure;
 
 namespace JiuJitsuWebApp.Controllers
 {
@@ -60,12 +62,7 @@ namespace JiuJitsuWebApp.Controllers
 
 				if (user != null)
 				{
-					var bookings = _context.Bookings
-	.Include(b => b.Class)
-	.Where(b => b.UserId == user.Id)
-	.ToList();
-
-
+					var bookings = _context.Bookings.Include(b => b.Class).Where(b => b.UserId == user.Id).ToList();
 					var viewModel = new AccountViewModel
 					{
 						User = user,
@@ -231,13 +228,18 @@ namespace JiuJitsuWebApp.Controllers
 
 				_context.Users.Add(user);
 				_context.SaveChanges();
-				var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-				{
-					Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
-					EnableSsl = true
-				};
+
+				string connectionString = "endpoint=https://lakesidejiujitsucommunicationservice.australia.communication.azure.com/;accesskey=y8h50R2R3z1L4Au9MIXadwO78yohyFR/Bq9oYtb2VqR+w+oQCgecgazTwWjmajx6ZGXTAnksS1OBrWoOB03siQ==";
+				var emailClient = new EmailClient(connectionString);
+
 				string emailMessage = "Here is your verification code:" + user.VerificationToken;
-				client.Send("sandropirillo@hotmail.com", request.Email, "Verification Email Lakeside Jiu Jitsu Academy", emailMessage);
+				EmailSendOperation emailSendOperation = emailClient.Send(
+				WaitUntil.Completed,
+				senderAddress: "DoNotReply@ba9ab7b6-a594-4ae9-997a-8313fc05ccc4.azurecomm.net",
+				recipientAddress: request.Email,
+				subject: "Account Verification",
+				htmlContent: emailMessage,
+				plainTextContent: emailMessage);
 				TempData["SuccessfulRegistrationMessage"] = "Thank you for creating an account, please check your email for a verification code your account";
 				return RedirectToAction("UserRegistration");
 			}
@@ -298,13 +300,17 @@ namespace JiuJitsuWebApp.Controllers
 			user.PasswordResetExpires = DateTime.Now.AddHours(1);
 
 			_context.SaveChanges();
-			var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-			{
-				Credentials = new NetworkCredential("61e896bbc7725f", "99881ecf294538"),
-				EnableSsl = true
-			};
+			string connectionString = "endpoint=https://lakesidejiujitsucommunicationservice.australia.communication.azure.com/;accesskey=y8h50R2R3z1L4Au9MIXadwO78yohyFR/Bq9oYtb2VqR+w+oQCgecgazTwWjmajx6ZGXTAnksS1OBrWoOB03siQ==";
+			var emailClient = new EmailClient(connectionString);
+
 			string emailMessage = "Here is your reset token:" + user.PasswordResetToken;
-			client.Send("sandropirillo@hotmail.com", email, "Password reset Lakeside Jiu Jitsu Academy", emailMessage);
+			EmailSendOperation emailSendOperation = emailClient.Send(
+			WaitUntil.Completed,
+			senderAddress: "DoNotReply@ba9ab7b6-a594-4ae9-997a-8313fc05ccc4.azurecomm.net",
+			recipientAddress: email,
+			subject: "Account Verification",
+			htmlContent: emailMessage,
+			plainTextContent: emailMessage);
 			TempData["PasswordResetMessage"] = "Please check your email for a password reset code";
 			return RedirectToAction("ForgotPassword");
 
